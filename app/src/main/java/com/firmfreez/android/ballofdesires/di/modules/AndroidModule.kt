@@ -4,13 +4,13 @@ import android.app.Application
 import com.firmfreez.android.ballofdesires.network.Api
 import com.firmfreez.android.ballofdesires.network.Api.Companion.BACK_URL
 import com.firmfreez.android.ballofdesires.network.UnsafeOkHttpClient
-import com.github.samizerouta.retrofit2.adapter.download.DownloadCallAdapterFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -40,7 +40,7 @@ class AndroidModule(val application: Application) {
             .baseUrl(BACK_URL)
             .client(okHttp)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(DownloadCallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
         return retrofit.build().create(Api::class.java)
     }
