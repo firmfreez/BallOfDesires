@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BallOfDesires</string>
+    <string name="get_answer">Получить ответ</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="not_defined">Не определено</string>
+    <string name="wait_please">Подождите пожалуйста...</string>
 </resources>
