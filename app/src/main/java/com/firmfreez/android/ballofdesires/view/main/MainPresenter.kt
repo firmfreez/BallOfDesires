@@ -10,7 +10,7 @@ import io.reactivex.internal.disposables.DisposableContainer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MainPresenter: BasePresenter<MainActivityImpl>() {
+class MainPresenter: BasePresenter<MainView>() {
     @Inject lateinit var yesNoService: YesNoService
     private lateinit var compositeDisposable: CompositeDisposable
 
@@ -31,17 +31,20 @@ class MainPresenter: BasePresenter<MainActivityImpl>() {
     }
 
     fun onStartBtnClicked() {
-        view?.showLoader(true)
         val disposable = yesNoService.getAnswer()
+                .doOnSubscribe {
+                    view?.showLoader(true)
+                }
+                .doFinally {
+                    view?.showLoader(false)
+                }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     Log.d(TAG, "Value: ${it.value}; Answer: ${it.answer}; ImageURL: ${it.imageUrl}")
                     view?.setBallAnswer(it)
-                    view?.showLoader(false)
                 }, {
                     Log.e(TAG, it.localizedMessage.orEmpty())
-                    view?.showLoader(false)
                 })
         compositeDisposable.add(disposable)
     }
