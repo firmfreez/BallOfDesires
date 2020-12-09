@@ -2,10 +2,8 @@ package com.firmfreez.android.ballofdesires.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.firmfreez.android.ballofdesires.R
 import com.firmfreez.android.ballofdesires.databinding.ActivityMainBinding
@@ -39,6 +37,10 @@ class MainActivity : AppCompatActivity(), MainView {
 
 
     override fun setBallAnswer(data: YesNoModel) {
+        Glide.with(this)
+                .load(data.imageUrl)
+                .into(binding.image)
+
         when (data.answer) {
             YES -> binding.resultText.text = getString(R.string.yes)
             NO  -> binding.resultText.text = getString(R.string.no)
@@ -59,5 +61,6 @@ class MainActivity : AppCompatActivity(), MainView {
     private companion object {
         const val YES = "yes"
         const val NO = "no"
+        const val TAG = "mainActivity"
     }
 }
