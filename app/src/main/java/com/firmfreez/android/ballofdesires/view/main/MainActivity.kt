@@ -2,6 +2,8 @@ package com.firmfreez.android.ballofdesires.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -10,11 +12,14 @@ import com.firmfreez.android.ballofdesires.databinding.ActivityMainBinding
 import com.firmfreez.android.ballofdesires.models.YesNoModel
 import com.firmfreez.android.ballofdesires.view.baseMVP.MVPLifecycleObserver
 import com.firmfreez.android.ballofdesires.view.baseMVP.RetainedState
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), MainView {
     private val lazyPresenter by lazy { MainPresenter() }
     private val retainedState: RetainedState by viewModels()
     private lateinit var mLifecycleObserver: MVPLifecycleObserver<MainView, MainPresenter>
+    private var vibrator: Vibrator? = null
+    private var shaker: ShakeListener? = null
 
     private lateinit var binding: ActivityMainBinding
 
@@ -23,7 +28,36 @@ class MainActivity : AppCompatActivity(), MainView {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.progress.max = 100
+
+        vibrator = (getSystemService(VIBRATOR_SERVICE) as? Vibrator)
+        shaker = ShakeListener(this)
+        shaker?.shakeListener = object : ShakeListener.OnShakeListener {
+            override fun onShake(progress: Float) {
+                binding.progress.progress = (progress * 100).roundToInt()
+            }
+
+            override fun onComplete() {
+                getPresenter().onStartBtnClicked()
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    vibrator?.vibrate(VibrationEffect.createOneShot(1000,0))
+                } else {
+                    vibrator?.vibrate(1000)
+                }
+            }
+        }
+
         onViewCreated()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shaker?.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        shaker?.pause()
     }
 
     private fun onViewCreated() {
