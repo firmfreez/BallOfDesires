@@ -2,7 +2,7 @@ package com.firmfreez.android.ballofdesires.view.main
 
 import android.content.Context
 import android.hardware.*
-import android.util.Log
+import timber.log.Timber
 import java.lang.UnsupportedOperationException
 import kotlin.math.abs
 
@@ -52,14 +52,14 @@ class ShakeListener(private val context: Context) : SensorEventListener {
 //            shakeCount = 0.0f
 //        }
 
-        Log.d("SENSOR", "CUR_THRESHOLD: ${now - lastTime}  CUR_SHAKE_TIMEOUT: ${now - lastForce}")
+        Timber.d("CUR_THRESHOLD: ${now - lastTime}  CUR_SHAKE_TIMEOUT: ${now - lastForce}")
 
         if(now - lastTime > TIME_THRESHOLD) {
             val diff = now - lastTime
             val speed = event?.let {
                 abs(it.values[0] + it.values[1] + it.values[2] - lastX - lastY - lastZ) / diff * 10000
             }
-            Log.d("SENSOR", "SPEED: ${speed}")
+            Timber.d( "SPEED: ${speed}")
             if(speed?: 0.0f > FORCE_THRESHOLD) {
                 if(now - lastShake > SHAKE_DURATION) {
                     shakeCount += 1.0f

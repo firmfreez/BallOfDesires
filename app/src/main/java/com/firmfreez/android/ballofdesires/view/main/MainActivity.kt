@@ -17,10 +17,15 @@ import kotlin.math.roundToInt
 class MainActivity : AppCompatActivity(), MainView {
     private val lazyPresenter by lazy { MainPresenter() }
     private val retainedState: RetainedState by viewModels()
-    private lateinit var mLifecycleObserver: MVPLifecycleObserver<MainView, MainPresenter>
+
     private var vibrator: Vibrator? = null
     private var shaker: ShakeListener? = null
 
+    private val MAX_PROGRESS = 100
+    private val VIBRATE_DURATION = 1000L
+    private val VIBRATE_AMPLITUDE = 0
+
+    private lateinit var mLifecycleObserver: MVPLifecycleObserver<MainView, MainPresenter>
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,21 +33,21 @@ class MainActivity : AppCompatActivity(), MainView {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.progress.max = 100
+        binding.progress.max = MAX_PROGRESS
 
         vibrator = (getSystemService(VIBRATOR_SERVICE) as? Vibrator)
         shaker = ShakeListener(this)
         shaker?.shakeListener = object : ShakeListener.OnShakeListener {
             override fun onShake(progress: Float) {
-                binding.progress.progress = (progress * 100).roundToInt()
+                binding.progress.progress = (progress * MAX_PROGRESS).roundToInt()
             }
 
             override fun onComplete() {
                 getPresenter().onStartBtnClicked()
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    vibrator?.vibrate(VibrationEffect.createOneShot(1000,0))
+                    vibrator?.vibrate(VibrationEffect.createOneShot(VIBRATE_DURATION,VIBRATE_AMPLITUDE))
                 } else {
-                    vibrator?.vibrate(1000)
+                    vibrator?.vibrate(VIBRATE_DURATION)
                 }
             }
         }
@@ -95,6 +100,5 @@ class MainActivity : AppCompatActivity(), MainView {
     private companion object {
         const val YES = "yes"
         const val NO = "no"
-        const val TAG = "mainActivity"
     }
 }
