@@ -27,12 +27,7 @@ class ShakeListener(private val context: Context) : SensorEventListener {
         if(sensorManager == null) {
             throw UnsupportedOperationException("Sensor is not supported")
         }
-        val supported = sensorManager?.registerListener(this, sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME)
-//        if(supported == false) {
-//            Log.d("SENSOR", "SENSOR_UNSUPPORTED")
-//            sensorManager?.unregisterListener(this, sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER))
-//            sensorManager = null
-//        }
+        sensorManager?.registerListener(this, sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME)
     }
 
     fun pause() {
@@ -47,10 +42,6 @@ class ShakeListener(private val context: Context) : SensorEventListener {
             return
         }
         val now = System.currentTimeMillis()
-
-//        if(now - lastForce > SHAKE_TIMEOUT) {
-//            shakeCount = 0.0f
-//        }
 
         Timber.d("CUR_THRESHOLD: ${now - lastTime}  CUR_SHAKE_TIMEOUT: ${now - lastForce}")
 
@@ -92,7 +83,6 @@ class ShakeListener(private val context: Context) : SensorEventListener {
     private companion object {
         const val FORCE_THRESHOLD = 1000
         const val TIME_THRESHOLD  = 100
-        const val SHAKE_TIMEOUT   = 500
         const val SHAKE_DURATION  = 1000
         const val SHAKE_COUNT     = 10.0f
     }

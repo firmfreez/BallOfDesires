@@ -28,6 +28,7 @@ class MainActivity : BaseActivity(), MainView {
     private lateinit var mLifecycleObserver: MVPLifecycleObserver<MainView, MainPresenter>
     private lateinit var binding: ActivityMainBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -51,7 +52,6 @@ class MainActivity : BaseActivity(), MainView {
                 }
             }
         }
-
         onViewCreated()
     }
 
