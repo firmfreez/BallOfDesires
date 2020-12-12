@@ -1,6 +1,9 @@
 package com.firmfreez.android.ballofdesires.view.baseMVP
 
 import androidx.annotation.CallSuper
+import com.firmfreez.android.ballofdesires.di.App
+import com.github.terrakok.cicerone.Router
+import javax.inject.Inject
 
 /**
  * Базовый презентер, умеет прикрепляться и открепляться от VIEW
@@ -9,6 +12,7 @@ import androidx.annotation.CallSuper
  * Необходимо наследоваться для всех Presenter - ов
  */
 abstract class BasePresenter<VIEW>: PresenterContract<VIEW> {
+    @Inject lateinit var router: Router
     protected var view: VIEW? = null
     protected var retainedState: RetainedState? = null
 

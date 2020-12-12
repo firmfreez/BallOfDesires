@@ -93,4 +93,7 @@ dependencies {
     //TIMBER
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    //CICERONE
+    implementation 'com.github.terrakok:cicerone:6.6'
+
 }

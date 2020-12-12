@@ -1,6 +1,5 @@
 package com.firmfreez.android.ballofdesires.view.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -12,9 +11,10 @@ import com.firmfreez.android.ballofdesires.databinding.ActivityMainBinding
 import com.firmfreez.android.ballofdesires.models.YesNoModel
 import com.firmfreez.android.ballofdesires.view.baseMVP.MVPLifecycleObserver
 import com.firmfreez.android.ballofdesires.view.baseMVP.RetainedState
+import com.firmfreez.android.ballofdesires.view.baseUI.BaseActivity
 import kotlin.math.roundToInt
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : BaseActivity(), MainView {
     private val lazyPresenter by lazy { MainPresenter() }
     private val retainedState: RetainedState by viewModels()
 

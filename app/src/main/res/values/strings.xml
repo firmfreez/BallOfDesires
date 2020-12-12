@@ -4,5 +4,7 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="not_defined">Не определено</string>
-    <string name="wait_please">Подождите пожалуйста...</string>
+    <string name="wait_please">Подождите пожалуйста…</string>
+    <string name="network_error_title">Ошибка соединения!</string>
+    <string name="network_error_message">Не удалось подключиться к серверу. Проверьте состояние вашей сети.</string>
 </resources>
