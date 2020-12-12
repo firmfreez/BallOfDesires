@@ -8,18 +8,21 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.firmfreez.android.ballofdesires.R
 import com.firmfreez.android.ballofdesires.databinding.ActivityMainBinding
+import com.firmfreez.android.ballofdesires.di.App
 import com.firmfreez.android.ballofdesires.models.YesNoModel
 import com.firmfreez.android.ballofdesires.view.baseMVP.MVPLifecycleObserver
 import com.firmfreez.android.ballofdesires.view.baseMVP.RetainedState
 import com.firmfreez.android.ballofdesires.view.baseUI.BaseActivity
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class MainActivity : BaseActivity(), MainView {
+    @Inject lateinit var shakeListener: ShakeListener
+
     private val lazyPresenter by lazy { MainPresenter() }
     private val retainedState: RetainedState by viewModels()
 
     private var vibrator: Vibrator? = null
-    private var shaker: ShakeListener? = null
 
     private val MAX_PROGRESS = 100
     private val VIBRATE_DURATION = 1000L
@@ -28,6 +31,9 @@ class MainActivity : BaseActivity(), MainView {
     private lateinit var mLifecycleObserver: MVPLifecycleObserver<MainView, MainPresenter>
     private lateinit var binding: ActivityMainBinding
 
+    init {
+        App.instance.component?.inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +43,7 @@ class MainActivity : BaseActivity(), MainView {
         binding.progress.max = MAX_PROGRESS
 
         vibrator = (getSystemService(VIBRATOR_SERVICE) as? Vibrator)
-        shaker = ShakeListener(this)
-        shaker?.shakeListener = object : ShakeListener.OnShakeListener {
+        shakeListener.shakeListener = object : ShakeListener.OnShakeListener {
             override fun onShake(progress: Float) {
                 binding.progress.progress = (progress * MAX_PROGRESS).roundToInt()
             }
@@ -57,12 +62,12 @@ class MainActivity : BaseActivity(), MainView {
 
     override fun onResume() {
         super.onResume()
-        shaker?.resume()
+        shakeListener.resume()
     }
 
     override fun onPause() {
         super.onPause()
-        shaker?.pause()
+        shakeListener.pause()
     }
 
     private fun onViewCreated() {
