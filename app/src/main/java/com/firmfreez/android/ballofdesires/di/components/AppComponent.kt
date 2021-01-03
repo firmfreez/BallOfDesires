@@ -1,25 +1,27 @@
 package com.firmfreez.android.ballofdesires.di.components
 
-import com.firmfreez.android.ballofdesires.di.modules.AndroidModule
-import com.firmfreez.android.ballofdesires.di.modules.NavigationModule
+import android.content.Context
+import com.firmfreez.android.ballofdesires.di.modules.AppModule
+import com.firmfreez.android.ballofdesires.di.modules.AppNavigationModule
 import com.firmfreez.android.ballofdesires.di.modules.NetworkModule
-import com.firmfreez.android.ballofdesires.view.baseUI.BaseActivity
-import com.firmfreez.android.ballofdesires.view.dialogs.TextDialogFragment
-import com.firmfreez.android.ballofdesires.view.main.MainActivity
-import com.firmfreez.android.ballofdesires.view.main.MainPresenter
+import com.firmfreez.android.ballofdesires.view.app.AppActivity
+import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.cicerone.Router
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [AndroidModule::class, NavigationModule::class, NetworkModule::class])
+@Component(modules = [AppModule::class, AppNavigationModule::class, NetworkModule::class])
 @Singleton
 interface AppComponent {
+    fun provideContext(): Context
+    fun provideCicerone(): Cicerone<Router>
+
     //Activities
-    fun inject(baseActivity: BaseActivity)
-    fun inject(mainActivity: MainActivity)
+    fun inject(appActivity: AppActivity)
 
-    //Presenters
-    fun inject(mainPresenter: MainPresenter)
-
-    //Fragments
-    fun inject(textDialogFragment: TextDialogFragment)
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance applicationContext: Context): AppComponent
+    }
 }

@@ -4,7 +4,7 @@ import android.app.Application
 import com.firmfreez.android.ballofdesires.BuildConfig
 import com.firmfreez.android.ballofdesires.di.components.AppComponent
 import com.firmfreez.android.ballofdesires.di.components.DaggerAppComponent
-import com.firmfreez.android.ballofdesires.di.modules.AndroidModule
+import com.firmfreez.android.ballofdesires.di.modules.AppModule
 import timber.log.Timber
 
 class App: Application() {
@@ -12,9 +12,8 @@ class App: Application() {
     get() {
         if(field == null) {
             field = DaggerAppComponent
-                .builder()
-                .androidModule(AndroidModule(this))
-                .build()
+                    .factory()
+                    .create(this)
         }
         return field
     }

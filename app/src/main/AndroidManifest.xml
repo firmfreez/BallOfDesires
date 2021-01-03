@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BallOfDesires"
         android:name=".di.App">
-        <activity android:name=".view.main.MainActivity">
+        <activity android:name=".view.ball.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

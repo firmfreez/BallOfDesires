@@ -1,4 +1,4 @@
-package com.firmfreez.android.ballofdesires.view.main
+package com.firmfreez.android.ballofdesires.view.ball
 
 import android.content.Context
 import android.hardware.*

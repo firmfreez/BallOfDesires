@@ -8,14 +8,16 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class NavigationModule {
-    private val cicerone: Cicerone<Router> = Cicerone.create()
+class AppNavigationModule {
+    @Provides
+    @Singleton
+    fun provideCicerone(): Cicerone<Router> = Cicerone.create()
 
     @Provides
     @Singleton
-    fun provideRouter(): Router = cicerone.router
+    fun provideRouter(cicerone: Cicerone<Router>): Router = cicerone.router
 
     @Provides
     @Singleton
-    fun provideNavigationHolder(): NavigatorHolder = cicerone.getNavigatorHolder()
+    fun provideNavigationHolder(cicerone: Cicerone<Router>): NavigatorHolder = cicerone.getNavigatorHolder()
 }

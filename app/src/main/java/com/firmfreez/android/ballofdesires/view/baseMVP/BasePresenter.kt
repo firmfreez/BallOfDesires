@@ -12,7 +12,6 @@ import javax.inject.Inject
  * Необходимо наследоваться для всех Presenter - ов
  */
 abstract class BasePresenter<VIEW>: PresenterContract<VIEW> {
-    @Inject lateinit var router: Router
     protected var view: VIEW? = null
     protected var retainedState: RetainedState? = null
 

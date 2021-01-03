@@ -1,10 +1,8 @@
-package com.firmfreez.android.ballofdesires.view.main
+package com.firmfreez.android.ballofdesires.view.ball
 
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.firmfreez.android.ballofdesires.R
 import com.firmfreez.android.ballofdesires.databinding.ActivityMainBinding
